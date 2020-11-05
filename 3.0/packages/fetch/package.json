@@ -1,6 +1,6 @@
 {
   "name": "@cj97/fetch",
-  "version": "0.0.1",
+  "version": "3.0.0",
   "scripts": {
     "dev": "vite",
     "build": "typecheck . && vite build"
