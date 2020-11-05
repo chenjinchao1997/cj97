@@ -1,8 +1,7 @@
 {
   "name": "cj97",
   "version": "3.0.0",
-  "description": "my useful toys for 3.0",
-  "main": "index.js",
+  "description": "my useful toys for Vue 3",
   "repository": "https://github.com/chenjinchao1997/cj97.git",
   "author": "cj97",
   "license": "MIT",

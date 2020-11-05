@@ -1,16 +1,16 @@
 module.exports = {
-    'root': true,
-    'env': {
-        'browser': true,
-        'node': true
+    root: true,
+    env: {
+        browser: true,
+        node: true
     },
-    'extends': [
+    extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:vue/vue3-recommended',
         '@vue/typescript',
     ],
-    'parserOptions': {
+    parserOptions: {
         'ecmaVersion': 12,
         'parser': '@typescript-eslint/parser',
         'sourceType': 'module',
@@ -18,14 +18,17 @@ module.exports = {
             'jsx': true
         }
     },
-    'plugins': [
+    plugins: [
         'vue',
         'standard',
         '@typescript-eslint'
     ],
-    'rules': {
+    rules: {
+        'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+        'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'indent': ['error', 4],
         'prefer-const': ['error', { 'destructuring': 'all' }],
-        'quotes': [2, 'single']
+        'quotes': [2, 'single'],
+        'semi': ['error', 'always']
     }
 };
