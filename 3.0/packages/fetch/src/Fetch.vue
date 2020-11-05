@@ -1,5 +1,5 @@
 <template>
-  <div>Fetch</div>
+    <div>Fetch</div>
 </template>
 
 <script lang="ts">
