@@ -1,13 +1,16 @@
 <template>
     <div id="app">
-        HelloWorld
+        <Fetch key="1"></Fetch>
     </div>
 </template>
 
 <script>
-
+import Fetch from '@cj97/fetch';
 export default {
-    name: 'App'
+    name: 'App',
+    components: {
+        Fetch
+    }
 };
 </script>
 
