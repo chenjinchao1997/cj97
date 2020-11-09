@@ -23,7 +23,7 @@ export type TRequestOption = {
 
     pathVariables?: Record<string, number | string>;
 
-    params?: Record<string, string | number>;
+    params?: Record<string, string>;
 
     data?: TRequestRequestData;
 
@@ -49,18 +49,18 @@ export type TRequestResponse<D extends TRequestResponseData> = {
 };
 
 export type TRequestError = {
-    options?: TRequestOption,
+    options: TRequestOption,
     errMsg?: string,
     status?: number,
     [x: string]: any,
     [x: number]: any
 };
 
-export interface TRequest<T extends TRequestOption = TRequestOption, R extends TRequestResponseData = TRequestResponseData> {
-    (options: T): Promise<[TRequestResponse<R>, undefined] | [undefined, TRequestError]>;
+export interface TRequest<T extends Partial<TRequestOption> = Partial<TRequestOption>, R extends TRequestResponseData = TRequestResponseData, E extends TRequestError = TRequestError> {
+    (options: T): Promise<[TRequestResponse<R>, undefined] | [undefined, E]>;
 }
 
-export interface createTRequest<T extends TRequestOption = TRequestOption, R extends TRequestResponseData = TRequestResponseData> {
+export interface createTRequest<T extends Partial<TRequestOption> = Partial<TRequestOption>, R extends TRequestResponseData = TRequestResponseData> {
     (basicOptions: Partial<T>): TRequest<T, R>;
 }
 
