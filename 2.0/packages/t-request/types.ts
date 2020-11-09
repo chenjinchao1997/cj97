@@ -4,6 +4,12 @@ export type TRequestResponseData = string | Record<string, any> | ArrayBuffer | 
 
 export type Method = 'GET' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'POST' | 'PUT';
 
+export type contentType =
+    | 'json'
+    | 'xml'
+    | 'form-data'
+    | 'form';
+
 export type ResponseType =
     | 'arraybuffer'
     | 'blob'
@@ -15,9 +21,9 @@ export type ResponseType =
 export type TRequestOption = {
     url: string;
 
-    pathVariables?: Record<string, any>;
+    pathVariables?: Record<string, number | string>;
 
-    params?: Record<string, any>;
+    params?: Record<string, string | number>;
 
     data?: TRequestRequestData;
 
@@ -26,6 +32,8 @@ export type TRequestOption = {
     method: Method;
 
     responseType?: ResponseType;
+
+    contentType?: contentType;
 }
 
 export type TRequestResponse<D extends TRequestResponseData> = {
@@ -41,6 +49,7 @@ export type TRequestResponse<D extends TRequestResponseData> = {
 };
 
 export type TRequestError = {
+    options?: TRequestOption,
     errMsg?: string,
     status?: number,
     [x: string]: any,
@@ -60,7 +69,7 @@ export interface TRequestFactory {
         baseUrl?: string,
         headers?: Record<string, string>,
         adapter?: TRequest,
-        onUploadProgress?: (event: ProgressEvent) => void,
-        onDownloadProgress?: (event: ProgressEvent) => void
+        // onUploadProgress?: (event: ProgressEvent) => void,
+        // onDownloadProgress?: (event: ProgressEvent) => void
     }): createTRequest;
 }
