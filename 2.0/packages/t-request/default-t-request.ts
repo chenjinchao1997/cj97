@@ -1,4 +1,4 @@
-import { TRequestOption, TRequestResponseData, TRequest, TRequestResponse, TRequestError } from './types';
+import { TRequestOption, TRequestResponseData, TRequestResponse, TRequestError, TRequestResult, TRequest } from './types';
 import utils from './utils';
 
 export function replacePathVariables (
@@ -24,7 +24,7 @@ export function replacePathVariables (
 
 type RequestBody = string | ArrayBuffer | ArrayBufferView | Blob | FormData;
 
-const tRequest = async <T extends TRequestOption, R extends TRequestResponseData, E extends TRequestError>(options: T): ReturnType<TRequest<T, R, E>> => {
+const tRequest = async <T extends TRequestOption, R extends TRequestResponseData, E extends TRequestError>(options: T): Promise<[TRequestResponse<R>, undefined] | [undefined, E]> => {
     const { url, params, pathVariables, data: requestData, headers: requestHeaders, method, responseType, contentType } = options;
 
     const contentTypeHeader = {

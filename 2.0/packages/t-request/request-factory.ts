@@ -32,8 +32,8 @@
 import { TRequest, TRequestError, TRequestFactory, TRequestOption, TRequestResponseData } from './types';
 import defaultTRequest from './default-t-request';
 
-const tRequestFactory = (baseConfig: Parameters<TRequestFactory>[0]) =>
-    <T extends Partial<TRequestOption>, R extends TRequestResponseData, E extends TRequestError>(basicOptions: Partial<TRequestOption>): TRequest<T, R, E> =>
+const tRequestFactory = <BasicE extends TRequestError = TRequestError>(baseConfig: Parameters<TRequestFactory>[0]) =>
+    <T extends Partial<TRequestOption>, R extends TRequestResponseData, E extends TRequestError = BasicE>(basicOptions: Partial<TRequestOption>): TRequest<T, R, E> =>
         (options: T): ReturnType<TRequest<T, R, E>> => {
             const { baseUrl, headers: baseHeaders, adapter: customAdapter } = baseConfig;
             const newOptions = {

@@ -56,12 +56,14 @@ export type TRequestError = {
     [x: number]: any
 };
 
+export type TRequestResult<R extends TRequestResponseData = TRequestResponseData, E extends TRequestError = TRequestError> = Promise<[TRequestResponse<R>, undefined] | [undefined, E]>;
+
 export interface TRequest<T extends Partial<TRequestOption> = Partial<TRequestOption>, R extends TRequestResponseData = TRequestResponseData, E extends TRequestError = TRequestError> {
-    (options: T): Promise<[TRequestResponse<R>, undefined] | [undefined, E]>;
+    (options: T): TRequestResult<R, E>;
 }
 
-export interface createTRequest<T extends Partial<TRequestOption> = Partial<TRequestOption>, R extends TRequestResponseData = TRequestResponseData> {
-    (basicOptions: Partial<T>): TRequest<T, R>;
+export interface createTRequest<T extends Partial<TRequestOption> = Partial<TRequestOption>, R extends TRequestResponseData = TRequestResponseData, E extends TRequestError = TRequestError> {
+    (basicOptions: Partial<T>): TRequest<T, R, E>;
 }
 
 export interface TRequestFactory {
