@@ -8,8 +8,10 @@
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
-  "dependencies": {
-    "vue": "^2.6.11",
+  "devDependencies": {
     "@cj97/fetch": "^2.0.0"
+  },
+  "dependencies": {
+    "vue": "^2.6.11"
   }
 }

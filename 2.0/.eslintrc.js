@@ -20,7 +20,8 @@ module.exports = {
     'vue/html-indent': ['error', 4],
     'prefer-const': ['error', { 'destructuring': 'all' }],
     'quotes': [2, 'single'],
-    'semi': ['error', 'always']
+    'semi': ['error', 'always'],
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   plugins: [
     'vue',
@@ -35,6 +36,13 @@ module.exports = {
       ],
       env: {
         jest: true
+      }
+    },
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": ["error"]
       }
     }
   ]
