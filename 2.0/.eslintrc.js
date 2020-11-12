@@ -21,7 +21,8 @@ module.exports = {
     'prefer-const': ['error', { 'destructuring': 'all' }],
     'quotes': [2, 'single'],
     'semi': ['error', 'always'],
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-var-requires": "off"
   },
   plugins: [
     'vue',
@@ -42,7 +43,8 @@ module.exports = {
       // enable the rule specifically for TypeScript files
       "files": ["*.ts", "*.tsx"],
       "rules": {
-        "@typescript-eslint/explicit-module-boundary-types": ["error"]
+        "@typescript-eslint/explicit-module-boundary-types": ["error"],
+        "@typescript-eslint/no-var-requires": ["error"]
       }
     }
   ]
