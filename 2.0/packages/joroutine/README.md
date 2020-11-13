@@ -1,11 +1,11 @@
 # worker-routine
 
-multi-threads manager tool, using limited number of workers to exec any async function.
+multi-threads manager tool, to exec any function within limited number of workers.
 
 ## Usage
 
 ``` javascript
-const run = coroutine(async () => {
+const run = joroutine(async (username) => {
     let url = `https://api.github.com/users/${username}`;
     let res = await fetch(url);
     let profile = await res.json();
@@ -13,4 +13,8 @@ const run = coroutine(async () => {
 });
 
 await run('developit');
+
+run.unregister();
+
+await run('developit'); // throw Error
 ```

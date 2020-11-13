@@ -11,45 +11,48 @@ function getCoreNum () {
     }
 }
 
-function onmessage (event) {
-    const args = event.data;
-    if (typeof args === 'string') {
-        const asyncFunctionCode = args;
-        eval(asyncFunctionCode);
-    } else if (typeof args === 'number') {
-        delete $fns[args];
-        postMessage(args);
-    } else {
-        const functionId = args[0];
-        const taskId = args[1];
-        Promise.resolve(args[2]).then(
-            v => {
-                if (!$fns[functionId]) throw new Error(`method ${functionId} has been unregistered`);
-                return $fns[functionId].apply($fns[functionId], v);
-            }
-        ).then(
-            // success handler
-            // if `d` is transferable transfer zero-copy
-            d => {
-                /**
-                 * data[0] method id
-                 * data[1] taskId
-                 * data[2] result
-                 */
-                postMessage([functionId, taskId, d, true], [d].filter(x => (
-                    (x instanceof ArrayBuffer) ||
-                    (x instanceof MessagePort) ||
-                    (self.ImageBitmap && x instanceof ImageBitmap)
-                )));
-            },
-            er => {
-                postMessage([functionId, taskId, er, false]);
-            }
-        );
-    }
+function onconnect (e) {
+    const port = e.ports[0];
+    port.onmessage = (event) => {
+        const args = event.data;
+        if (typeof args === 'string') {
+            const asyncFunctionCode = args;
+            eval(asyncFunctionCode);
+        } else if (typeof args === 'number') {
+            delete $fns[args];
+            port.postMessage(args);
+        } else {
+            const functionId = args[0];
+            const taskId = args[1];
+            Promise.resolve(args[2]).then(
+                v => {
+                    if (!$fns[functionId]) throw new Error(`method ${functionId} has been unregistered`);
+                    return $fns[functionId].apply($fns[functionId], v);
+                }
+            ).then(
+                // success handler
+                // if `d` is transferable transfer zero-copy
+                d => {
+                    /**
+                     * data[0] method id
+                     * data[1] taskId
+                     * data[2] result
+                     */
+                    port.postMessage([functionId, taskId, d, true], [d].filter(x => (
+                        (x instanceof ArrayBuffer) ||
+                        (x instanceof MessagePort) ||
+                        (self.ImageBitmap && x instanceof ImageBitmap)
+                    )));
+                },
+                er => {
+                    port.postMessage([functionId, taskId, er, false]);
+                }
+            );
+        }
+    };
 }
 
-const code = 'var $fns={};onmessage=' + onmessage + ';';
+const code = 'var $fns={};onconnect=' + onconnect + ';';
 const scriptURL = URL.createObjectURL(new Blob([code]));
 
 const registerPromises = {};
@@ -57,16 +60,16 @@ const promises = {};
 let workers = [];
 function createWorkers (coreNum) {
     return new Array(coreNum).fill(0).map((_, index) => {
-        const worker = new Worker(scriptURL, {
+        const worker = new SharedWorker(scriptURL, {
             name: 'joroutine_shared_number' + index,
             type: 'classic',
             credentials: 'same-origin'
         });
 
-        worker.onmessage = (e) => {
+        worker.port.onmessage = (e) => {
             const data = e.data;
             if (data.length === 1) {
-                registerPromises[index][data[0]]();
+                registerPromises[index][data[0]](data[0]);
                 delete registerPromises[index][data[0]];
             } else {
                 const pm = promises[data[1]];
@@ -80,6 +83,8 @@ function createWorkers (coreNum) {
                 }
             }
         };
+
+        worker.port.start();
         return worker;
     });
 }
@@ -92,7 +97,7 @@ function register (asyncFunctionCode, functionId) {
             workers.map(
                 (worker, index) => new Promise(resolve => {
                     registerPromises[index][functionId] = resolve;
-                    worker.postMessage(asyncFunctionCode);
+                    worker.port.postMessage(asyncFunctionCode);
                 })
             )
         )
@@ -100,12 +105,13 @@ function register (asyncFunctionCode, functionId) {
 }
 
 function unregister (functionId) {
+    // ensure chain-registering of new function code
     registerPromise = registerPromise.then(
         () => Promise.all(
             workers.map(
                 (worker, index) => new Promise(resolve => {
                     registerPromises[index][functionId] = resolve;
-                    worker.postMessage(functionId);
+                    worker.port.postMessage(functionId);
                 })
             )
         )
@@ -119,7 +125,7 @@ async function dispatch (functionId, taskId, args) {
         promises[taskId] = {
             resolve, reject
         };
-        chosen.postMessage([functionId, taskId, args], args.filter(x => (
+        chosen.port.postMessage([functionId, taskId, args], args.filter(x => (
             (x instanceof ArrayBuffer) ||
             (x instanceof MessagePort) ||
             (self.ImageBitmap && x instanceof ImageBitmap)
@@ -141,7 +147,7 @@ function init () {
 init();
 export default function joroutine (asyncFunction) {
     const functionId = currentId;
-    const asyncFunctionCode = `$fns[${functionId}]=${asyncFunction};postMessage([${functionId}]);`;
+    const asyncFunctionCode = `$fns[${functionId}]=${asyncFunction};port.postMessage([${functionId}]);`;
     register(asyncFunctionCode, functionId);
 
     const newFn = function (...args) {
