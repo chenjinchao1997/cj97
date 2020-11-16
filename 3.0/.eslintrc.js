@@ -31,6 +31,16 @@ module.exports = {
         'indent': ['error', 4],
         'prefer-const': ['error', { 'destructuring': 'all' }],
         'quotes': [2, 'single'],
-        'semi': ['error', 'always']
-    }
+        'semi': ['error', 'always'],
+        '@typescript-eslint/explicit-module-boundary-types': 'off'
+    },
+    'overrides': [
+        {
+            // enable the rule specifically for TypeScript files
+            'files': ['*.ts', '*.tsx'],
+            'rules': {
+                // '@typescript-eslint/explicit-module-boundary-types': ['error']
+            }
+        }
+    ]
 };
