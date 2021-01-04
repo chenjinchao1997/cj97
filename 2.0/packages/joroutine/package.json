@@ -1,12 +1,12 @@
 {
   "name": "@cj97/joroutine",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "main": "index.js",
   "scripts": {
     "dev": "vite"
   },
   "devDependencies": {
-    "@cj97/joroutine": "1.0.0",
+    "@cj97/joroutine": "^3.0.0",
     "vite": "^1.0.0-rc.8"
   },
   "dependencies": {}
