@@ -11,7 +11,7 @@
   "devDependencies": {
     "@cj97/fetch": "^2.0.0"
   },
-  "dependencies": {
+  "peerDependencies": {
     "vue": "^2.6.11"
   }
 }
