@@ -8,9 +8,7 @@
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
-  "devDependencies": {
-    "@cj97/fetch": "^2.0.0"
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "vue": "^2.6.11"
   }
