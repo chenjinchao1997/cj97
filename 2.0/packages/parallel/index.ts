@@ -15,8 +15,8 @@ export default function parallel(cores: number) {
         }
     };
 
-    return (fn: Function) => (...args: any) => {
-        return new Promise<any>((resolve, reject) => {
+    return <T extends (...args: any) => any = (...args: any) => any>(fn: T) => (...args: Parameters<T>) => {
+        return new Promise<ReturnType<T>>((resolve, reject) => {
             waitingFns.push([fn, args, resolve, reject]);
             start();
         });
