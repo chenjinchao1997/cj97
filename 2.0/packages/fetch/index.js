@@ -1,3 +1,3 @@
-import Fetch from './src/fetch.vue';
+import Fetch from './src/fetch.vue'
 
-export default Fetch;
+export default Fetch
