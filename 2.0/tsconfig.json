@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "ESNext",
-    "outDir": "./dist",
     "declaration": true,
     "moduleResolution": "node",
     "strict": true,
@@ -11,16 +10,16 @@
     "esModuleInterop": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
     "lib": [
       "ESNext",
       "DOM",
+      "DOM.Iterable",
+      "ScriptHost",
       "WebWorker"
-    ],
-    "plugins": [
-      {
-        "name": "@vuedx/typescript-plugin-vue"
-      }
-    ],
+    ]
   },
   "include": [
     "**/*.d.ts",
@@ -28,5 +27,8 @@
     "packages/**/*.d.ts",
     "packages/**/*.tsx",
     "packages/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "name": "@cj97/virtual-list",
+  "version": "2.0.0",
+  "scripts": {
+    "build": "vue-cli-service build --target lib --name cj97-virtual-list index.ts",
+    "dev": "vue-cli-service serve"
+  },
+  "main": "lib/index.ts",
+  "devDependencies": {
+    "@vue/cli": "~4.5.11",
+    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-service-global": "~4.5.11",
+    "typescript": "~3.9.3"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.12"
+  },
+  "license": "MIT"
+}
