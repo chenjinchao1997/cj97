@@ -9,5 +9,6 @@ module.exports = {
         sourceType: 'module', // Allows for the use of imports
     },
     rules: {
+        'no-unused-vars': 'warn',
     },
 };

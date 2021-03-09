@@ -1,23 +1,26 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ES5",
+    "module": "ESNext",
     "outDir": "./dist",
     "declaration": true,
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
-      "esnext",
-      "dom"
+      "ESNext",
+      "DOM",
+      "WebWorker"
     ],
     "plugins": [
       {
         "name": "@vuedx/typescript-plugin-vue"
       }
     ],
-    "allowSyntheticDefaultImports": true,
   },
   "include": [
     "**/*.d.ts",
