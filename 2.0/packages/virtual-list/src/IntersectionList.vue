@@ -8,7 +8,7 @@
             :key="item[keyField]"
             :intersection-list-item-key="item[keyField]"
             ref="items">
-            <slot :item="item"  />
+            <slot :item="item" />
         </div>
     </div>
 </template>
