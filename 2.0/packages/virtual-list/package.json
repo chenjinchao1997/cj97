@@ -5,6 +5,10 @@
     "build": "vue-cli-service build --target lib --name cj97-virtual-list index.ts",
     "dev": "vue-cli-service serve"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "main": "lib/index.ts",
   "devDependencies": {
     "@vue/cli": "~4.5.11",
