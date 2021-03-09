@@ -1,0 +1,12 @@
+{
+  "name": "@cj97/eslint-config-typescript",
+  "version": "1.0.0",
+  "description": "cj97 TS ESLint config",
+  "license": "MIT",
+  "main": "./index.js",
+  "dependencies": {
+    "@cj97/eslint-config-base": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0"
+  }
+}
