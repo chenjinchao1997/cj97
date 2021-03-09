@@ -6,6 +6,11 @@ module.exports = {
     parserOptions: {
         parser: '@typescript-eslint/parser',
     },
+    env: {
+        browser: true,
+        node: true,
+        commonjs: true
+    },
     rules: {
         '@typescript-eslint/no-unused-vars': 'warn',
         '@typescript-eslint/ban-types': ['warn'],
