@@ -5,18 +5,18 @@ module.exports = {
     ],
     parserOptions: {
         parser: '@typescript-eslint/parser',
-        ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-        sourceType: 'module', // Allows for the use of imports
     },
     rules: {
-        'no-unused-vars': 'warn',
+        '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/ban-types': ['warn'],
+        '@typescript-eslint/explicit-module-boundary-types': 'off'
     },
     overrides: [
-        // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/FAQ.md#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
         {
-            files: ['*.ts'],
-            rules: {
-                'no-undef': 'off'
+            'files': ['*.ts', '*.tsx'],
+            'rules': {
+                'no-undef': 'off', // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/FAQ.md#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
+                '@typescript-eslint/explicit-module-boundary-types': ['warn']
             }
         }
     ]
