@@ -1,8 +1,13 @@
 <template>
-    <div id="app">
+    <div
+        id="app"
+    >
         <intersection-list
             :list="list"
-            style="height: 500px;width: 500px;"
+            style="height: 500px;width: 100%;"
+            :options="{
+                rootMargin: '30px'
+            }"
             @visible-change="visibleChange"
         >
             <template #default="{ item }">
@@ -20,7 +25,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
     name: 'App',
     data () {
         return {
@@ -35,7 +42,7 @@ export default {
             item.visible = visible
         }
     }
-}
+})
 </script>
 
 <style>

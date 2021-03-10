@@ -4,20 +4,30 @@
         ref="container"
         class="intersection-list"
     >
-        <div v-if="$slots.before">
+        <div
+            v-if="$slots.before"
+            class="intersection-list__slot"
+        >
             <slot name="before" />
         </div>
-        <div
-            v-for="item of list"
-            :key="item[keyField]"
-            ref="items"
-            v-life-cycle="onEvent"
-            class="intersection-list__item"
-            :intersection-list-item-key="item[keyField]"
-        >
-            <slot :item="item" />
+        <div class="intersection-list__list">
+            <template v-if="canRender">
+                <div
+                    v-for="item of list"
+                    :key="item[keyField]"
+                    ref="items"
+                    v-life-cycle="onEvent"
+                    class="intersection-list__item"
+                    :intersection-list-item-key="item[keyField]"
+                >
+                    <slot :item="item" />
+                </div>
+            </template>
         </div>
-        <div v-if="$slots.after">
+        <div
+            v-if="$slots.after"
+            class="intersection-list__slot"
+        >
             <slot name="after" />
         </div>
     </div>
@@ -47,6 +57,7 @@ export default Vue.extend({
     data () {
         const listIntersectionObserver: { val: IntersectionObserver|null } = { val: null }
         return {
+            canRender: false,
             listIntersectionObserver
         }
     },
@@ -59,8 +70,18 @@ export default Vue.extend({
             return res
         }
     },
-    created () {
-        this.listIntersectionObserver.val = new IntersectionObserver(this.observerCallback, this.options)
+    watch: {
+        canRender (v) {
+            const options = Object.assign({}, this.options)
+            if (!options.root) {
+                options.root = this.$refs.container
+            }
+            console.log(options)
+            if (v) this.listIntersectionObserver.val = new IntersectionObserver(this.observerCallback, options)
+        }
+    },
+    mounted () {
+        this.canRender = true
     },
     methods: {
         observerCallback (...args: Parameters<IntersectionObserverCallback>) {
