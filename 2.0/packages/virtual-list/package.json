@@ -9,7 +9,7 @@
     "src",
     "dist"
   ],
-  "main": "lib/index.ts",
+  "main": "lib/index.js",
   "devDependencies": {
     "@vue/cli": "~4.5.11",
     "@vue/cli-plugin-typescript": "~4.5.0",

@@ -4,7 +4,7 @@ module.exports = {
         sourceType: 'module',
         ecmaVersion: 2020,
         ecmaFeatures: {
-            'jsx': true
+            jsx: true
         }
     },
     env: {
@@ -20,7 +20,8 @@ module.exports = {
     rules: {
         indent: ['error', 4],
         quotes: ['error', 'single', 'avoid-escape'],
+        semi: ['error', 'never'],
         'no-unused-vars': 'warn',
-        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
     }
-};
+}

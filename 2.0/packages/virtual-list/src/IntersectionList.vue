@@ -1,13 +1,17 @@
 
 <template>
-    <div class="intersection-list" ref="container">
+    <div
+        ref="container"
+        class="intersection-list"
+    >
         <div
-            v-life-cycle="onEvent"
-            class="intersection-list__item"
             v-for="item of list"
             :key="item[keyField]"
+            ref="items"
+            v-life-cycle="onEvent"
+            class="intersection-list__item"
             :intersection-list-item-key="item[keyField]"
-            ref="items">
+        >
             <slot :item="item" />
         </div>
     </div>
