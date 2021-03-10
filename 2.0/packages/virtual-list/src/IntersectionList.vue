@@ -4,6 +4,9 @@
         ref="container"
         class="intersection-list"
     >
+        <div v-if="$slots.before">
+            <slot name="before" />
+        </div>
         <div
             v-for="item of list"
             :key="item[keyField]"
@@ -13,6 +16,9 @@
             :intersection-list-item-key="item[keyField]"
         >
             <slot :item="item" />
+        </div>
+        <div v-if="$slots.after">
+            <slot name="after" />
         </div>
     </div>
 </template>
@@ -32,6 +38,10 @@ export default Vue.extend({
         list: {
             type: Array,
             required: true
+        },
+        options: {
+            type: Object,
+            default: () => ({})
         }
     },
     data () {
@@ -50,7 +60,7 @@ export default Vue.extend({
         }
     },
     created () {
-        this.listIntersectionObserver.val = new IntersectionObserver(this.observerCallback)
+        this.listIntersectionObserver.val = new IntersectionObserver(this.observerCallback, this.options)
     },
     methods: {
         observerCallback (...args: Parameters<IntersectionObserverCallback>) {

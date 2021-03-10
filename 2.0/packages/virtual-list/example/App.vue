@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <IntersectionList
+        <intersection-list
             :list="list"
             style="height: 500px;width: 500px;"
             @visible-change="visibleChange"
@@ -15,7 +15,7 @@
                     {{ item.id }}
                 </div>
             </template>
-        </IntersectionList>
+        </intersection-list>
     </div>
 </template>
 

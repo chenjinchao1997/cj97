@@ -11,6 +11,6 @@ export {
 export default class VueObserveVisibilityPlugin {
     static install: PluginFunction<never> = function (vue) {
         vue.use(LifeCycleInstall)
-        vue.component(IntersectionList.name, IntersectionList)
+        vue.component('intersection-list', IntersectionList)
     }
 }
