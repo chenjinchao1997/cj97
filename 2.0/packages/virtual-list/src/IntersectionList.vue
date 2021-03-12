@@ -58,7 +58,7 @@ export default Vue.extend({
         },
         options: {
             type: Object,
-            default: () => ({})
+            default: () => ({ root: 'default' })
         },
         itemClass: {
             type: String,
@@ -96,9 +96,7 @@ export default Vue.extend({
         },
         canRender (v) {
             if (!v) return
-            const options = Object.assign({
-                root: 'default'
-            }, this.options)
+            const options = Object.assign({}, this.options)
             if (options.root === 'default') {
                 options.root = this.$refs.container
             }

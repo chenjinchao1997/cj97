@@ -13,7 +13,7 @@ module.exports = {
     },
     rules: {
         '@typescript-eslint/no-unused-vars': 'warn',
-        '@typescript-eslint/ban-types': ['warn'],
+        '@typescript-eslint/ban-types': ['off'],
         '@typescript-eslint/explicit-module-boundary-types': 'off'
     },
     overrides: [

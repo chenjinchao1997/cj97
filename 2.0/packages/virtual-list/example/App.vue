@@ -6,6 +6,7 @@
             :list="list"
             style="height: 500px;width: 100%;"
             :options="{
+                root: 'default',
                 rootMargin: '30px'
             }"
             @visible-change="visibleChange"
