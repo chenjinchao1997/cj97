@@ -10,17 +10,24 @@
         >
             <slot name="before" />
         </div>
-        <div class="intersection-list__list">
+        <div
+            class="intersection-list__wrapper"
+            :class="wrapperClass"
+        >
             <template v-if="canRender">
                 <div
-                    v-for="item of list"
-                    :key="item[keyField]"
+                    v-for="v of wrappedList"
+                    :key="v.item[keyField]"
                     ref="items"
                     v-life-cycle="onEvent"
+                    :intersection-list-item-key="v.item[keyField]"
                     class="intersection-list__item"
-                    :intersection-list-item-key="item[keyField]"
+                    :class="itemClass"
                 >
-                    <slot :item="item" />
+                    <slot
+                        :item="v.item"
+                        :visible="v.visible"
+                    />
                 </div>
             </template>
         </div>
@@ -52,32 +59,50 @@ export default Vue.extend({
         options: {
             type: Object,
             default: () => ({})
+        },
+        itemClass: {
+            type: String,
+            default: undefined
+        },
+        wrapperClass: {
+            type: String,
+            default: undefined
         }
     },
     data () {
         const listIntersectionObserver: { val: IntersectionObserver|null } = { val: null }
+        const wrappedList: { visible: boolean, item: any }[] = []
+        const wrappedListMap: Record<string, { visible: boolean, item: any }> = {}
         return {
             canRender: false,
-            listIntersectionObserver
-        }
-    },
-    computed: {
-        map () {
-            const res: Record<string, any> = {}
-            this.list.forEach((item: any) => {
-                res[item[this.keyField]] = item
-            })
-            return res
+            listIntersectionObserver,
+            wrappedList,
+            wrappedListMap
         }
     },
     watch: {
+        list: {
+            immediate: true,
+            handler (v, ov) {
+                this.wrappedList = v.map((item: any) => ({
+                    visible: Boolean(this.wrappedListMap[item[this.keyField]]?.visible),
+                    item
+                }))
+                this.wrappedListMap = {}
+                this.wrappedList.forEach((v: { visible: boolean, item: any }) => {
+                    this.wrappedListMap[v.item[this.keyField]] = v
+                })
+            }
+        },
         canRender (v) {
-            const options = Object.assign({}, this.options)
-            if (!options.root) {
+            if (!v) return
+            const options = Object.assign({
+                root: 'default'
+            }, this.options)
+            if (options.root === 'default') {
                 options.root = this.$refs.container
             }
-            console.log(options)
-            if (v) this.listIntersectionObserver.val = new IntersectionObserver(this.observerCallback, options)
+            this.listIntersectionObserver.val = new IntersectionObserver(this.observerCallback, options)
         }
     },
     mounted () {
@@ -89,8 +114,11 @@ export default Vue.extend({
             entries.forEach(entry => {
                 const { target, isIntersecting } = entry
                 const id = target.getAttribute('intersection-list-item-key') as string
-                const item = this.map[id]
-                item && (this.$emit('visible-change', item[this.keyField], item, isIntersecting))
+                const wrappedItem = this.wrappedListMap[id]
+                if (wrappedItem) {
+                    this.$emit('visible-change', wrappedItem.item[this.keyField], wrappedItem.item, isIntersecting)
+                    wrappedItem.visible = isIntersecting
+                }
             })
         },
         onEvent (...args: Parameters<EmitDirectiveEvent>) {

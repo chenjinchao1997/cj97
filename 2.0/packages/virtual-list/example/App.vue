@@ -10,11 +10,11 @@
             }"
             @visible-change="visibleChange"
         >
-            <template #default="{ item }">
+            <template #default="{ item, visible }">
                 <div
                     class="item"
                     :style="{
-                        'background-color': item.visible ? 'green' : 'red'
+                        'background-color': visible ? 'green' : 'red'
                     }"
                 >
                     {{ item.id }}
@@ -32,14 +32,17 @@ export default Vue.extend({
     data () {
         return {
             list: Array(100).fill(0).map((v, i) => ({
-                id: i,
-                visible: false
+                id: i
+                // visible: false
             }))
         }
     },
+    created () {
+        (window as unknown as any).ctx = this
+    },
     methods: {
         visibleChange (id: number, item: any, visible: boolean) {
-            item.visible = visible
+            // item.visible = visible
         }
     }
 })
