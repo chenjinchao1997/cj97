@@ -11,6 +11,7 @@
     "dev:jojo": "yarn workspace @cj97/joroutine run dev",
     "dev:bem": "yarn workspace @cj97/v-bem run dev",
     "dev:vl": "yarn workspace @cj97/virtual-list run dev",
+    "dev:vnode": "yarn workspace @cj97/vnode run dev",
     "buildall": "yarn workspaces run build"
   },
   "workspaces": [
