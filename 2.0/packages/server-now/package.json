@@ -1,0 +1,16 @@
+{
+  "name": "@cj97/server-now",
+  "version": "3.0.0",
+  "main": "dist/index.js",
+  "types": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "vite": "^2.0.0-beta.29",
+    "@cj97/server-now": "^3.0.0"
+  },
+  "dependencies": {}
+}
