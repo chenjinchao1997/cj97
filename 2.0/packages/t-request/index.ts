@@ -1,9 +1,9 @@
-import tRequest from './default-t-request';
-import tRequestFactory from './request-factory';
+import tRequest from './default-t-request'
+import tRequestFactory from './request-factory'
 
 export default {
     tRequest,
     tRequestFactory
-};
+}
 
-export * from './types';
+export * from './types'

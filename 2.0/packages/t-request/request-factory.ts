@@ -29,27 +29,27 @@
 //     }
 // });
 
-import { TRequest, TRequestError, TRequestFactory, TRequestOption, TRequestResponseData } from './types';
-import defaultTRequest from './default-t-request';
+import { TRequest, TRequestError, TRequestFactory, TRequestOption, TRequestResponseData } from './types'
+import defaultTRequest from './default-t-request'
 
 const tRequestFactory = <BasicE extends TRequestError = TRequestError>(baseConfig: Parameters<TRequestFactory>[0]) =>
     <T extends Partial<TRequestOption>, R extends TRequestResponseData, E extends TRequestError = BasicE>(basicOptions: Partial<TRequestOption>): TRequest<T, R, E> =>
         (options: T): ReturnType<TRequest<T, R, E>> => {
-            const { baseUrl, headers: baseHeaders, adapter: customAdapter } = baseConfig;
+            const { baseUrl, headers: baseHeaders, adapter: customAdapter } = baseConfig
             const newOptions = {
                 ...basicOptions,
                 ...options
-            };
+            }
             if (baseUrl) {
-                newOptions.url = baseUrl + newOptions.url;
+                newOptions.url = baseUrl + newOptions.url
             }
             if (baseHeaders) {
-                newOptions.headers = Object.assign(baseHeaders, newOptions.headers);
+                newOptions.headers = Object.assign(baseHeaders, newOptions.headers)
             }
-            const adapter = customAdapter || defaultTRequest;
-            return adapter(newOptions as TRequestOption) as ReturnType<TRequest<T, R, E>>;
-        };
+            const adapter = customAdapter || defaultTRequest
+            return adapter(newOptions as TRequestOption) as ReturnType<TRequest<T, R, E>>
+        }
 
-export const create = tRequestFactory({});
+export const create = tRequestFactory({})
 
-export default tRequestFactory;
+export default tRequestFactory

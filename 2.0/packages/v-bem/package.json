@@ -1,0 +1,19 @@
+{
+  "name": "@cj97/v-bem",
+  "version": "2.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "esbuild index.js --bundle --outfile=dist/index.js && yarn style",
+    "style": "lessc health-check.less dist/health-check.css"
+  },
+  "devDependencies": {
+    "esbuild": "^0.8.32",
+    "less": "^4.1.0",
+    "vite": "^2.0.0-beta.29"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.12"
+  }
+}

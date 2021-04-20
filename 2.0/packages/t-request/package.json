@@ -6,6 +6,7 @@
     "build": "esbuild index.ts --bundle --outfile=dist/index.js --loader:.ts=ts"
   },
   "devDependencies": {
+    "@cj97/t-request": "~2.0.0",
     "esbuild": "^0.8.32"
   },
   "dependencies": {}

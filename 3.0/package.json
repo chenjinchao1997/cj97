@@ -8,11 +8,7 @@
   "private": true,
   "scripts": {
     "dev:fetch": "yarn workspace @cj97/fetch run dev",
-    "buildall": "yarn workspaces run build"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",

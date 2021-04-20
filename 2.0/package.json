@@ -12,11 +12,8 @@
     "dev:bem": "yarn workspace @cj97/v-bem run dev",
     "dev:vl": "yarn workspace @cj97/virtual-list run dev",
     "dev:vnode": "yarn workspace @cj97/vnode run dev",
-    "buildall": "yarn workspaces run build"
+    "dev:snow": "yarn workspace @cj97/server-now run dev"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",

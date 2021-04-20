@@ -7,7 +7,7 @@
  * @returns {boolean} True if value is an Array, otherwise false
  */
 function isArray (val: unknown): val is Array<unknown> {
-    return toString.call(val) === '[object Array]';
+    return toString.call(val) === '[object Array]'
 }
 
 /**
@@ -17,7 +17,7 @@ function isArray (val: unknown): val is Array<unknown> {
  * @returns {boolean} True if the value is undefined, otherwise false
  */
 function isUndefined (val: unknown): val is undefined {
-    return typeof val === 'undefined';
+    return typeof val === 'undefined'
 }
 
 /**
@@ -28,7 +28,7 @@ function isUndefined (val: unknown): val is undefined {
  */
 function isBuffer (val: any): val is Buffer {
     return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) &&
-    typeof val.constructor.isBuffer === 'function' && val.constructor.isBuffer(val);
+    typeof val.constructor.isBuffer === 'function' && val.constructor.isBuffer(val)
 }
 
 /**
@@ -38,7 +38,7 @@ function isBuffer (val: any): val is Buffer {
  * @returns {boolean} True if value is an ArrayBuffer, otherwise false
  */
 function isArrayBuffer (val: unknown): val is ArrayBuffer {
-    return toString.call(val) === '[object ArrayBuffer]';
+    return toString.call(val) === '[object ArrayBuffer]'
 }
 
 /**
@@ -48,7 +48,7 @@ function isArrayBuffer (val: unknown): val is ArrayBuffer {
  * @returns {boolean} True if value is an FormData, otherwise false
  */
 function isFormData (val: unknown): val is FormData {
-    return (typeof FormData !== 'undefined') && (val instanceof FormData);
+    return (typeof FormData !== 'undefined') && (val instanceof FormData)
 }
 
 /**
@@ -58,13 +58,13 @@ function isFormData (val: unknown): val is FormData {
  * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
  */
 function isArrayBufferView (val: any): val is ArrayBufferView {
-    let result;
+    let result
     if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
-        result = ArrayBuffer.isView(val);
+        result = ArrayBuffer.isView(val)
     } else {
-        result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+        result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer)
     }
-    return result;
+    return result
 }
 
 /**
@@ -74,7 +74,7 @@ function isArrayBufferView (val: any): val is ArrayBufferView {
  * @returns {boolean} True if value is a String, otherwise false
  */
 function isString (val: unknown): val is string {
-    return typeof val === 'string';
+    return typeof val === 'string'
 }
 
 /**
@@ -84,7 +84,7 @@ function isString (val: unknown): val is string {
  * @returns {boolean} True if value is a Number, otherwise false
  */
 function isNumber (val: unknown): val is number {
-    return typeof val === 'number';
+    return typeof val === 'number'
 }
 
 /**
@@ -94,7 +94,7 @@ function isNumber (val: unknown): val is number {
  * @returns {boolean} True if value is an Object, otherwise false
  */
 function isObject (val: unknown): val is Record<string, unknown> {
-    return val !== null && typeof val === 'object';
+    return val !== null && typeof val === 'object'
 }
 
 /**
@@ -105,11 +105,11 @@ function isObject (val: unknown): val is Record<string, unknown> {
  */
 function isPlainObject (val: any) {
     if (toString.call(val) !== '[object Object]') {
-        return false;
+        return false
     }
 
-    const prototype = Object.getPrototypeOf(val);
-    return prototype === null || prototype === Object.prototype;
+    const prototype = Object.getPrototypeOf(val)
+    return prototype === null || prototype === Object.prototype
 }
 
 /**
@@ -119,7 +119,7 @@ function isPlainObject (val: any) {
  * @returns {boolean} True if value is a Date, otherwise false
  */
 function isDate (val: unknown): val is Date {
-    return toString.call(val) === '[object Date]';
+    return toString.call(val) === '[object Date]'
 }
 
 /**
@@ -129,7 +129,7 @@ function isDate (val: unknown): val is Date {
  * @returns {boolean} True if value is a File, otherwise false
  */
 function isFile (val: unknown): val is File {
-    return toString.call(val) === '[object File]';
+    return toString.call(val) === '[object File]'
 }
 
 /**
@@ -139,7 +139,7 @@ function isFile (val: unknown): val is File {
  * @returns {boolean} True if value is a Blob, otherwise false
  */
 function isBlob (val: unknown): val is Blob {
-    return toString.call(val) === '[object Blob]';
+    return toString.call(val) === '[object Blob]'
 }
 
 /**
@@ -149,7 +149,7 @@ function isBlob (val: unknown): val is Blob {
  * @returns {boolean} True if value is a Function, otherwise false
  */
 function isFunction (val: unknown): val is (...args: any) => any {
-    return toString.call(val) === '[object Function]';
+    return toString.call(val) === '[object Function]'
 }
 
 /**
@@ -159,7 +159,7 @@ function isFunction (val: unknown): val is (...args: any) => any {
  * @returns {boolean} True if value is a Stream, otherwise false
  */
 function isStream (val: unknown) {
-    return isObject(val) && isFunction(val.pipe);
+    return isObject(val) && isFunction(val.pipe)
 }
 
 /**
@@ -181,12 +181,12 @@ function isStandardBrowserEnv () {
     if (typeof navigator !== 'undefined' && (navigator.product === 'ReactNative' ||
                                            navigator.product === 'NativeScript' ||
                                            navigator.product === 'NS')) {
-        return false;
+        return false
     }
     return (
         typeof window !== 'undefined' &&
     typeof document !== 'undefined'
-    );
+    )
 }
 
 export default {
@@ -206,4 +206,4 @@ export default {
     isFunction,
     isStream,
     isStandardBrowserEnv
-};
+}
