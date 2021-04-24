@@ -4,7 +4,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "yarn dev:server & yarn watch & yarn dev:client",
+    "dev": "yarn watch & yarn dev:server & yarn dev:client",
     "dev:server": "node dev/server/main.mjs",
     "dev:client": "vite"
   },
