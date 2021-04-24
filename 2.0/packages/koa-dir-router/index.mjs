@@ -1,6 +1,5 @@
 import path from 'path'
 import fs from 'fs/promises'
-import clearModule from 'clear-module'
 import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -32,7 +31,7 @@ export default ({
     dir = null, // 程序目录
     baseUrl = '', // 基准目录
     prefixUrl = '/', // 基准目录
-    checkTimes = 1000, // 检查间隔
+    // checkTimes = 1000, // 检查间隔，由于ESM import的特性cache immutable所以无法支持该参数
     debug = true, // 是否显示调试信息
     errorLog = () => { },
     context = global,
@@ -84,23 +83,10 @@ export default ({
                 }
                 let mData = null
                 mData = await fs.stat(_filePath)
-                const mtime = mData.mtime.toString()
+                const mtime = +mData.mtime
 
                 const requirepath = path.relative(__dirname, _filePath)
-                let { default: data } = await import(requirepath)
-                if (!data._ckTime || Date.now() - data._ckTime >= checkTimes) {
-                    data._ckTime = Date.now()
-
-                    if (!data._mtime) {
-                        data._mtime = mtime
-                    } else if (data._mtime !== mtime) {
-                        clearModule(requirepath)
-                        const { default: _data } = await import(requirepath)
-                        data = _data
-                        data._ckTime = Date.now()
-                        data._mtime = mtime
-                    }
-                }
+                let data = (await import(`${requirepath}?t=${mtime}`)).default
                 try {
                     if (typeof data === 'function') {
                         await data.call(context, ctx)
