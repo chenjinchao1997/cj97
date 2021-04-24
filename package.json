@@ -16,7 +16,8 @@
     "dev:vnode": "yarn workspace @cj97/vnode run dev",
     "dev:md-elps": "yarn workspace @cj97/middle-ellipsis run dev",
     "dev:snow": "yarn workspace @cj97/server-now run dev",
-    "dev:fetch": "yarn workspace @cj97/fetch run dev"
+    "dev:fetch": "yarn workspace @cj97/fetch run dev",
+    "dev:rtc": "yarn workspace @cj97/sync-rtc run dev"
   },
   "devDependencies": {
     "core-js": "^3.8.2",

@@ -1,0 +1,31 @@
+{
+  "name": "@cj97/koa-dir-router",
+  "version": "1.1.6",
+  "description": "fork koa-dir-router to support mjs",
+  "main": "index.js",
+  "module": "index.mjs",
+  "dependencies": {
+    "clear-module": "^4.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "koa",
+    "koa2",
+    "router",
+    "dir-router",
+    "dir",
+    "static-router",
+    "koa-dir-router",
+    "koa-static-router",
+    "koa-router"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xueliangGit/koa-dir-router/issues"
+  },
+  "homepage": "https://github.com/xueliangGit/koa-dir-router#readme"
+}
