@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export class Base {
+class Base {
     constructor(...args: any[]) {
         return this;
     }
 }
 
-export function SpeakMixin<Cls extends typeof Base>(Ctor: Cls) {
+function SpeakMixin<Cls extends typeof Base>(Ctor: Cls) {
     return class extends Ctor {
         speakText = 'speak'
         speak() {
@@ -13,9 +13,9 @@ export function SpeakMixin<Cls extends typeof Base>(Ctor: Cls) {
         }
     };
 }
-export class Speak extends SpeakMixin(Base) {}
+class Speak extends SpeakMixin(Base) {}
 
-export function RunMixin<Cls extends typeof Base>(Ctor: Cls) {
+function RunMixin<Cls extends typeof Base>(Ctor: Cls) {
     return class extends Ctor {
         runText = 'runnnnn';
         run() {
@@ -23,9 +23,9 @@ export function RunMixin<Cls extends typeof Base>(Ctor: Cls) {
         }
     };
 }
-export class Run extends RunMixin(Base) {}
+class Run extends RunMixin(Base) {}
 
-export function HumanMixin<Cls extends typeof Base>(Ctor: Cls) {
+function HumanMixin<Cls extends typeof Base>(Ctor: Cls) {
     return class extends RunMixin(SpeakMixin(Ctor)) {
         name: string;
         constructor(name = '') {
@@ -40,7 +40,7 @@ export function HumanMixin<Cls extends typeof Base>(Ctor: Cls) {
         }
     };
 }
-export class Human extends HumanMixin(Base) {}
+class Human extends HumanMixin(Base) {}
 
 const trump = new Human('trump');
 console.log(trump.run());
@@ -48,3 +48,31 @@ console.log(trump.speak());
 console.log(trump.yeah());
 console.log(trump.speakText);
 console.log(trump.runText);
+
+
+function withGeneric<T extends String, Cls extends typeof Base>(Ctor: Cls) {
+    return class extends Ctor {
+        text?: T = undefined
+        one() {
+            console.log(this.text);
+        }
+        two() {
+            this.one();
+        }
+    };
+}
+
+function withGeneric2<T extends String, Cls extends typeof Base>(Ctor: Cls) {
+    return class extends withGeneric<T, Cls>(Ctor) {
+        text2?: T = undefined
+        one() {
+            super.one()
+            console.log(this.text2);
+        }
+    };
+}
+
+const generic = new (withGeneric2<string, typeof Base>(Base));
+generic.text = '123'
+generic.text2 = '456'
+generic.two();
