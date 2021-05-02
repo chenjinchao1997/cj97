@@ -1,0 +1,14 @@
+{
+  "name": "@cj97/eslint-config-vue-next",
+  "version": "1.0.0",
+  "description": "cj97 Vue3 JS ESLint config",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "eslint-plugin-vue": "^7.0.0",
+    "vue-eslint-parser": "^7.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1"
+  }
+}
