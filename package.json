@@ -17,9 +17,12 @@
     "dev:md-elps": "yarn workspace @cj97/middle-ellipsis run dev",
     "dev:snow": "yarn workspace @cj97/server-now run dev",
     "dev:fetch": "yarn workspace @cj97/fetch run dev",
-    "dev:rtc": "yarn workspace @cj97/sync-rtc run dev"
+    "dev:rtc": "yarn workspace @cj97/sync-rtc run dev",
+    "dev:trq": "yarn workspace @cj97/typed-request run dev",
+    "unit:trq": "yarn workspace @cj97/typed-request run test"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "babel-eslint": "^10.1.0",
     "core-js": "^3.8.2",
     "esbuild": "^0.8.32",
