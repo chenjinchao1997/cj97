@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/**
+ * 一个mixin最佳实践的保存
+ */
 class Base {
     constructor(...args: any[]) {
         return this;
