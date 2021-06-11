@@ -43,7 +43,7 @@ request.create = function (
 }
 
 request({
-    url: 'test.com',
+    url: '/test',
     method: 'GET'
 })
 
@@ -52,7 +52,7 @@ request<{
         a: string
     }
 }, string>({
-    url: 'test.com',
+    url: '/test',
     method: 'GET',
     params: {
         a: '123' // must be string

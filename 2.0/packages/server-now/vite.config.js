@@ -1,5 +1,5 @@
 export default {
-    root: './example/index.html',
+    root: './example',
     port: 3001,
     proxy: {}
 }

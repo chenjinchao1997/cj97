@@ -1,6 +1,6 @@
 let diff = 0
 
-export async function snow () {
+export async function snow (): Promise<number> {
     if (diff) {
         return Date.now() + diff
     }
@@ -18,12 +18,12 @@ export async function snow () {
                 resolve(end + diff)
             }
         }
-        xhr.open('GET', '', true)
+        xhr.open('HEAD', '', false)
         xhr.send(null)
     })
 }
 
-export function syncsnow () {
+export function syncsnow (): number {
     if (diff) {
         return Date.now() + diff
     } else {
