@@ -1,9 +1,12 @@
-import {} from 'vue'
+import { useObject } from './use-object';
+// import { useArray } from './use-array';
 
-export function useReactiveFirstObject() {
-    return false;
+export {
+    useObject,
+    // useArray
 }
 
-export function useReactiveFirstArray() {
-    return false;
+export default {
+    useObject,
+    // useArray
 }

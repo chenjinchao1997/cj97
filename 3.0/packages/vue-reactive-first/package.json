@@ -9,6 +9,8 @@
     "vue": "^3.1.1"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.3",
+    "@vitejs/plugin-vue-jsx": "^1.1.5",
     "@vue/compiler-sfc": "^3.0.5",
     "@vuedx/typecheck": "^0.2.4-0",
     "@vuedx/typescript-plugin-vue": "^0.2.4-0",

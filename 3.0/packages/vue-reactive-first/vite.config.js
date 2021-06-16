@@ -1,5 +1,9 @@
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 export default {
-    root: './example/index.html',
+    root: './example',
+    base: 'example',
     port: 3001,
-    proxy: {}
+    proxy: {},
+    plugins: [vue(), vueJsx()]
 };
