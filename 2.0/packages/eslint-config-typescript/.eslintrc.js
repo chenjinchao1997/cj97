@@ -26,7 +26,6 @@ module.exports = {
                 '@typescript-eslint/explicit-module-boundary-types': ['warn'],
                 'no-empty-function': 'off',
                 '@typescript-eslint/no-empty-function': ['warn']
-
             }
         }
     ]
