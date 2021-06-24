@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 
 /**
  * http method
@@ -19,8 +20,8 @@ export type ResponseType =
  */
 export type RequestData = string | Record<string, any> | ArrayBuffer
 export type RequestBody = {
-    pathVariables?: Record<string, number | string>;
-    params?: Record<string, any>;
+    params?: Record<string, number | string>;
+    query?: Record<string, any>;
     data?: RequestData;
 }
 
@@ -30,7 +31,7 @@ export type TRequestOptions<T extends RequestBody = RequestBody> = {
      * 设置请求的 header，header 中不能设置 Referer。
      * `content-type` 默认为 `application/json`
      */
-    headers?: Record<string, any>;
+    headers?: Record<string, string>;
 
     /** HTTP 请求方法 */
     method: Method;
@@ -41,6 +42,8 @@ export type TRequestOptions<T extends RequestBody = RequestBody> = {
     responseType?: ResponseType;
 
     init?: Record<string | number | symbol, any>;
+
+    middlewares?: TRequestMiddleware[];
 } & T
 
 export type TRequestResponse<Data extends any = any> = {
@@ -76,11 +79,11 @@ export interface TRequestApi<
     E extends Record<string | number | symbol, any> = {}
 > {
     <NT extends T, NR extends R>(
-        options: Partial<TRequestOptions<NT>>
+        options: Partial<TRequestOptions<NT>> & NT
     ): Promise<TRequestResponse<NR>>;
 
     to<NT extends T, NR extends R, NE extends E>(
-        options: Partial<TRequestOptions<NT>>
+        options: Partial<TRequestOptions<NT>> & NT
     ): Promise<ToReturn<NR, NE>>;
 }
 
@@ -126,3 +129,8 @@ export interface TRequest {
     create(middleware: TRequestMiddleware): TRequest;
     create(middlewares: TRequestMiddleware[]): TRequest;
 }
+
+export type TRequestBasic = <
+    T extends RequestBody = RequestBody,
+    R extends TRequestResponse['data'] = TRequestResponse['data']
+>(options: TRequestOptions<T>) => Promise<TRequestResponse<R>>

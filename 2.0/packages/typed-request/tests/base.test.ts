@@ -1,4 +1,4 @@
-import request from '../index'
+import request from '../browser'
 import fetchMock from 'jest-fetch-mock'
 import { TRequestMiddleware } from '../interface'
 
