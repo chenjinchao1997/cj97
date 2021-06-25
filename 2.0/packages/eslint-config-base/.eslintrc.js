@@ -20,7 +20,7 @@ module.exports = {
     rules: {
         indent: ['error', 4],
         quotes: ['error', 'single', 'avoid-escape'],
-        semi: ['error', 'never'],
+        semi: ['error', 'always'],
         'no-unused-vars': 'warn',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
     }

@@ -1,0 +1,9 @@
+{
+  "name": "@cj97/match",
+  "version": "3.0.0",
+  "main": "dist/index.js",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc"
+  }
+}
