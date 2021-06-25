@@ -33,7 +33,7 @@ type Choices<T extends { [x in string]: any }> = { [ K in keyof T ]: (cases: T[K
 /**
  * 判断是否为基础类型
  */
-function _nonBasicType (x: unknown) {
+function _isBasicType (x: unknown) {
     return ['undefined', 'boolean', 'number', 'string', 'symbol'].includes(typeof x);
 }
 
@@ -68,12 +68,13 @@ test({ __type: 'Foo', foo: 'hello' }); // hello
 export default function match<T extends Type | BasicType > (value: T):
 <Cs extends Choices<TypeUnionToRecord<T>> & Choices<BasicTypeUnionToRecord<T>>>(choices: Cs) => ReturnType<Cs[keyof Cs]> {
     return (choices) => {
-        if (_nonBasicType(value)) {
+        if (_isBasicType(value)) {
             const key = typeof value;
             return (choices as any)[key](value);
-        } else {
+        } else if ((value as any).__type) {
             const __value = value as Type;
             return (choices as any)[__value.__type](value);
         }
+        throw new Error('unexpected input');
     };
 }
