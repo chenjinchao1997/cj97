@@ -1,7 +1,7 @@
 {
   "name": "cj97-root",
   "repository": "https://github.com/chenjinchao1997/cj97.git",
-  "author": "cj97",
+  "author": "jcc1997",
   "license": "MIT",
   "private": true,
   "workspaces": [

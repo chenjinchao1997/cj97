@@ -41,7 +41,7 @@ function _isBasicType (x: unknown) {
  * match 函数，科里化执行 match(value)({ Foo: foo => foo.foo, Bar: bar => bar.bar })
  * @param value 入参
  * @param choices 模式匹配对象
- * @returns choices 所有可能的返回值
+ * @returns choices 中所有函数的返回值的Union
  * usage:
 type Foo = Type<'Foo', {
     foo: string

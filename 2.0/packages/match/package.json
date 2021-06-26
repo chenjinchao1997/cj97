@@ -1,9 +1,13 @@
 {
   "name": "@cj97/match",
   "version": "3.0.0",
+  "repository": "https://github.com/chenjinchao1997/cj97.git",
+  "author": "jcc1997",
+  "license": "MIT",
   "main": "dist/index.js",
-  "types": "index.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "npm publish"
   }
 }
