@@ -1,7 +1,12 @@
 {
   "name": "@cj97/match",
   "version": "3.0.0",
-  "repository": "https://github.com/chenjinchao1997/cj97.git",
+  "repository": "https://github.com/jcc1997/cj97/tree/main/2.0/packages/match",
+  "keywords": [
+    "typescript",
+    "pattern matching"
+  ],
+  "description": "typescript pattern matching",
   "author": "jcc1997",
   "license": "MIT",
   "main": "dist/index.js",
