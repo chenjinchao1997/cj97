@@ -16,13 +16,14 @@ type TypeUnionToRecordIntersection<U> = (
 type TypeUnionToRecord<T> = IntersectionToRecord<TypeUnionToRecordIntersection<T>>
 
 // 基本类型
-type BasicType = string | number | undefined | boolean | symbol;
+type BasicType = string | number | bigint | boolean | undefined | symbol;
 // 将形如 number | boolean 这样的类型转化为 { number: number, boolean: boolean }
 type BasicTypeUnionToRecord<T> =
     IntersectionToRecord<
-        (boolean extends T ? { boolean: boolean } : {}) &
         (string extends T ? { string: string } : {}) &
         (number extends T ? { number: number } : {}) &
+        (bigint extends T ? { bigint: bigint } : {}) &
+        (boolean extends T ? { boolean: boolean } : {}) &
         (undefined extends T ? { undefined: undefined } : {}) &
         (symbol extends T ? { symbol: symbol } : {})>;
 
