@@ -2,10 +2,10 @@
  * typed-request 浏览器端实现
  * 使用 fetch
  */
-import { factory } from '.';
+import { factory } from './index';
 import { ResponseType, RequestBody, TRequestOptions, TRequestResponse } from './interface';
 import { buildUrl, isObject } from './utils';
-export * from '.';
+export * from './index';
 
 function transformData<D extends any> (data: D, headers: Headers) {
     if (

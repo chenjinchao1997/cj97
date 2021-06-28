@@ -130,7 +130,16 @@ export interface TRequest {
     create(middlewares: TRequestMiddleware[]): TRequest;
 }
 
+/**
+ * 结合 factory 函数定义 typed-request 实现时的第一个参数定义
+ * 不同实现只需要实现该函数即可
+ */
 export type TRequestBasic = <
     T extends RequestBody = RequestBody,
     R extends TRequestResponse['data'] = TRequestResponse['data']
->(options: TRequestOptions<T>) => Promise<TRequestResponse<R>>
+>(options: TRequestOptions<T>) => Promise<TRequestResponse<R>>;
+
+export type ApiDefinition<
+    Options extends unknown,
+    Result extends Promise<TRequestResponse>
+> = (trq: TRequest, options: Options) => Result;
