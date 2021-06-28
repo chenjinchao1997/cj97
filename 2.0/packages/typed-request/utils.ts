@@ -2,21 +2,21 @@ export function replacePathVariables (
     url: string,
     variables: Record<string, number | string>
 ): string {
-    const regex = /\/:(\w+)/
+    const regex = /\/:(\w+)/;
 
-    let newUrl = url
-    let tmpArr = regex.exec(newUrl)
+    let newUrl = url;
+    let tmpArr = regex.exec(newUrl);
     while (tmpArr !== null) {
-        const key = tmpArr[1]
+        const key = tmpArr[1];
         if (variables[key] !== undefined && variables[key] !== null) {
-            newUrl = newUrl.replace(`:${key}`, variables[key].toString())
+            newUrl = newUrl.replace(`:${key}`, variables[key].toString());
         } else {
-            throw new Error(`require path variable ${key}`)
+            throw new Error(`require path variable ${key}`);
         }
-        tmpArr = regex.exec(newUrl)
+        tmpArr = regex.exec(newUrl);
     }
 
-    return newUrl
+    return newUrl;
 }
 
 export function appendParams (
@@ -24,9 +24,9 @@ export function appendParams (
     params: Record<string, number | string>
 ): string {
     const query = Object.entries(params).map(([k, v]) => {
-        return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
-    }).join('&')
-    return query ? url.includes('?') ? url + query : url + '?' + query : url
+        return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
+    }).join('&');
+    return query ? url.includes('?') ? url + query : url + '?' + query : url;
 }
 
 export function buildUrl (
@@ -34,9 +34,9 @@ export function buildUrl (
     params: Record<string, number | string>,
     variables: Record<string, number | string>
 ): string {
-    return appendParams(replacePathVariables(url, variables), params)
+    return appendParams(replacePathVariables(url, variables), params);
 }
 
 export function isObject (val: unknown): val is Object {
-    return val !== null && typeof val === 'object'
+    return val !== null && typeof val === 'object';
 }

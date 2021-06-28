@@ -1,6 +1,12 @@
-import { ResponseType, RequestBody, TRequest, TRequestApi, TRequestError, TRequestMiddleware, TRequestOptions, TRequestResponse, TRequestBasic } from './interface'
-export * from './interface'
+import { RequestBody, TRequest, TRequestApi, TRequestError, TRequestMiddleware, TRequestOptions, TRequestResponse, TRequestBasic, ApiDefinition } from './interface';
+export * from './interface';
 
+/**
+ * factory 用于生成 typed-request 实例
+ * @param basic 基础请求函数
+ * @param middles 预置中间件
+ * @returns typed-request 实例
+ */
 export function factory (basic: TRequestBasic, middles: TRequestMiddleware[]): TRequest {
     const request: TRequest = async function <
         T extends RequestBody = RequestBody,
@@ -8,21 +14,21 @@ export function factory (basic: TRequestBasic, middles: TRequestMiddleware[]): T
     > (
         options: TRequestOptions<T>
     ): Promise<TRequestResponse<R>> {
-        const { middlewares } = options
+        const { middlewares } = options;
         // 全局中间件在外层 自定义中间件在内层
-        const concatMids = (middles ?? []).concat(middlewares ?? [])
+        const concatMids = (middles ?? []).concat(middlewares ?? []);
         function dispatch (i: number): (options: TRequestOptions<T>) => Promise<TRequestResponse<R>> {
-            const mid = concatMids[i]
+            const mid = concatMids[i];
 
             if (i === concatMids.length) {
-                return (options) => basic(options)
+                return (options) => basic(options);
             } else {
-                return (options) => mid(options, dispatch(i + 1))
+                return (options) => mid(options, dispatch(i + 1));
             }
         }
-        const resp = await dispatch(0)(options)
-        return resp as TRequestResponse<R>
-    }
+        const resp = await dispatch(0)(options);
+        return resp as TRequestResponse<R>;
+    };
 
     const to: TRequest['to'] = async function <
         T extends RequestBody = RequestBody,
@@ -32,16 +38,16 @@ export function factory (basic: TRequestBasic, middles: TRequestMiddleware[]): T
         options: TRequestOptions<T>
     ) {
         try {
-            const data = await request<T, R>(options)
-            return [data, null]
+            const data = await request<T, R>(options);
+            return [data, null];
         } catch (e) {
             const error: TRequestError<E> = {
                 error: e
-            } as TRequestError<E>
-            return [null, error]
+            } as TRequestError<E>;
+            return [null, error];
         }
-    }
-    request.to = to
+    };
+    request.to = to;
 
     request.api = function <
         T extends RequestBody = RequestBody,
@@ -54,9 +60,9 @@ export function factory (basic: TRequestBasic, middles: TRequestMiddleware[]): T
             const data = await request<NT, NR>({
                 ...common,
                 ...options
-            } as TRequestOptions<NT>)
-            return data
-        }
+            } as TRequestOptions<NT>);
+            return data;
+        };
         const to: TRequestApi<T, R, E>['to'] = async function <NT extends T, NR extends R, NE extends E> (
             options: Partial<TRequestOptions<NT>> & NT
         ) {
@@ -64,46 +70,56 @@ export function factory (basic: TRequestBasic, middles: TRequestMiddleware[]): T
                 const data = await api<NT, NR>({
                     ...common,
                     ...options
-                } as Partial<TRequestOptions<NT>> & NT)
-                return [data, null]
+                } as Partial<TRequestOptions<NT>> & NT);
+                return [data, null];
             } catch (e) {
                 const error: TRequestError<NE> = {
                     error: e
-                } as TRequestError<NE>
-                return [null, error]
+                } as TRequestError<NE>;
+                return [null, error];
             }
-        }
-        api.to = to
-        return api
-    }
+        };
+        api.to = to;
+        return api;
+    };
 
     request.create = function (
         middlewares: TRequestMiddleware | TRequestMiddleware[]
     ): TRequest {
-        return factory(basic, [...middles].concat(middlewares))
-    }
+        return factory(basic, [...middles].concat(middlewares));
+    };
 
-    return request
+    return request;
 }
 
-export type ApiDefinition<Options extends unknown, Result extends Promise<TRequestResponse>> = (trq: TRequest, options: Options) => Result;
+/**
+ * 用于在未定 typed-request instance 的时候定义 api
+ * @param definition 一个<string, defineApi()> 的 map
+ * @returns 返回一个科里化 definition 的函数
+ */
 export function defineApi<
     Options extends unknown,
     Result extends Promise<TRequestResponse>
 > (definition: ApiDefinition<Options, Result>): (trq: TRequest) => (options: Options) => Result {
-    return trq => options => definition(trq, options)
+    return trq => options => definition(trq, options);
 }
 
 type DefFn<
     Options extends unknown = any,
     Result extends Promise<TRequestResponse> = Promise<TRequestResponse>
 > = (trq: TRequest) => (options: Options) => Result
+
+/**
+ * 用于在未定 typed-request instance 的时候定义 api 集合
+ * @param apis 一个<string, defineApi()> 的 map
+ * @returns 返回一个待传入 typed-request 实现的函数
+ */
 export function defineApis<T extends Record<string, DefFn>> (apis: T): (trq: TRequest) => { [K in keyof T]: (options: Parameters<ReturnType<T[K]>>[0]) => ReturnType<ReturnType<T[K]>>} {
     return trq => {
-        const result: { [x in string]: (options: unknown) => Promise<TRequestResponse>} = {}
+        const result: { [x in string]: (options: unknown) => Promise<TRequestResponse>} = {};
         Object.keys(apis).forEach(k => {
-            result[k] = apis[k](trq)
-        })
-        return result as { [K in keyof T]: (options: Parameters<ReturnType<T[K]>>[0]) => ReturnType<ReturnType<T[K]>>}
-    }
+            result[k] = apis[k](trq);
+        });
+        return result as { [K in keyof T]: (options: Parameters<ReturnType<T[K]>>[0]) => ReturnType<ReturnType<T[K]>>};
+    };
 }
