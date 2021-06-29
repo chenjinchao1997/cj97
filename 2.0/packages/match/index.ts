@@ -44,9 +44,14 @@ function _isBasicType (x: unknown) {
  * @param choices 模式匹配对象
  * @returns choices 中所有函数的返回值的Union
  * usage:
-type Foo = Type<'Foo', {
+class Foo extends TypeClass<'Foo'> {
+    __type: 'Foo' = 'Foo'
     foo: string
-}>;
+    constructor ({ foo }: { foo: string }) {
+        super();
+        this.foo = foo;
+    }
+}
 
 type Bar = Type<'Bar', {
     bar: number
@@ -78,4 +83,22 @@ export default function match<T extends Type | BasicType > (value: T):
         }
         throw new Error('unexpected input');
     };
+}
+
+/**
+ * 通过类的方式声明符合 type Type 约定的类也可以使用本match函数
+ * 可以避免手动赋值 __type
+ * usage:
+class Foo extends TypeClass<'Foo'> {
+    __type: 'Foo' = 'Foo'
+    foo: string
+    constructor ({ foo }: { foo: string }) {
+        super();
+        this.foo = foo;
+    }
+}
+const inst = new Foo({ foo: 'foo' });
+ */
+export abstract class TypeClass<T extends string> {
+    abstract __type: T;
 }
