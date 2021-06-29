@@ -30,6 +30,19 @@ function test (x: Foo | Bar | undefined | boolean) {
 test({ __type: 'Foo', foo: 'hello' }); // hello
 ```
 
+也可以使用下面这种方式使用类的声明
+
+```typescript
+class Foo extends TypeClass<'Foo'> {
+    __type: 'Foo' = 'Foo'
+    foo: string
+    constructor ({ foo }: { foo: string }) {
+        super();
+        this.foo = foo;
+    }
+}
+```
+
 ## 注意
 
 **必须在 `tsconfig` 设置 `"strictNullChecks": true` 否则无法进行正确的类型推断**。
