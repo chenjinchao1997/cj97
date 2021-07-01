@@ -41,8 +41,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { LifeCycle, EmitDirectiveEvent } from './life-cycle'
+import Vue from 'vue';
+import { LifeCycle, EmitDirectiveEvent } from './life-cycle';
 
 export default Vue.extend({
     name: 'IntersectionList',
@@ -70,15 +70,15 @@ export default Vue.extend({
         }
     },
     data () {
-        const listIntersectionObserver: { val: IntersectionObserver|null } = { val: null }
-        const wrappedList: { visible: boolean, item: any }[] = []
-        const wrappedListMap: Record<string, { visible: boolean, item: any }> = {}
+        const listIntersectionObserver: { val: IntersectionObserver|null } = { val: null };
+        const wrappedList: { visible: boolean, item: any }[] = [];
+        const wrappedListMap: Record<string, { visible: boolean, item: any }> = {};
         return {
             canRender: false,
             listIntersectionObserver,
             wrappedList,
             wrappedListMap
-        }
+        };
     },
     watch: {
         list: {
@@ -87,49 +87,49 @@ export default Vue.extend({
                 this.wrappedList = v.map((item: any) => ({
                     visible: Boolean(this.wrappedListMap[item[this.keyField]]?.visible),
                     item
-                }))
-                this.wrappedListMap = {}
+                }));
+                this.wrappedListMap = {};
                 this.wrappedList.forEach((v: { visible: boolean, item: any }) => {
-                    this.wrappedListMap[v.item[this.keyField]] = v
-                })
+                    this.wrappedListMap[v.item[this.keyField]] = v;
+                });
             }
         },
         canRender (v) {
-            if (!v) return
-            const options = Object.assign({}, this.options)
+            if (!v) return;
+            const options = Object.assign({}, this.options);
             if (options.root === 'default') {
-                options.root = this.$refs.container
+                options.root = this.$refs.container;
             }
-            this.listIntersectionObserver.val = new IntersectionObserver(this.observerCallback, options)
+            this.listIntersectionObserver.val = new IntersectionObserver(this.observerCallback, options);
         }
     },
     mounted () {
-        this.canRender = true
+        this.canRender = true;
     },
     methods: {
         observerCallback (...args: Parameters<IntersectionObserverCallback>) {
-            const [entries, observer] = args
+            const [entries, observer] = args;
             entries.forEach(entry => {
-                const { target, isIntersecting } = entry
-                const id = target.getAttribute('intersection-list-item-key') as string
-                const wrappedItem = this.wrappedListMap[id]
+                const { target, isIntersecting } = entry;
+                const id = target.getAttribute('intersection-list-item-key') as string;
+                const wrappedItem = this.wrappedListMap[id];
                 if (wrappedItem) {
-                    this.$emit('visible-change', wrappedItem.item[this.keyField], wrappedItem.item, isIntersecting)
-                    wrappedItem.visible = isIntersecting
+                    this.$emit('visible-change', wrappedItem.item[this.keyField], wrappedItem.item, isIntersecting);
+                    wrappedItem.visible = isIntersecting;
                 }
-            })
+            });
         },
         onEvent (...args: Parameters<EmitDirectiveEvent>) {
-            const [event, el, binding, vnode, oldVnode] = args
-            const observer = this.listIntersectionObserver.val
+            const [event, el, binding, vnode, oldVnode] = args;
+            const observer = this.listIntersectionObserver.val;
             if (event === 'bind') {
-                observer && observer.observe(el)
+                observer && observer.observe(el);
             } else if (event === 'unbind') {
-                observer && observer.unobserve(el)
+                observer && observer.unobserve(el);
             }
         }
     }
-})
+});
 </script>
 
 <style>
