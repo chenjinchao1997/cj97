@@ -102,3 +102,35 @@ const inst = new Foo({ foo: 'foo' });
 export abstract class TypeClass<T extends string> {
     abstract __type: T;
 }
+
+type ValueUnionToRecordIntersection<U> = (
+    U extends string | number | symbol ? (arg: { [x in U]: U }) => 0 : never
+) extends (arg: infer I) => 0 ? I : never
+type ValueUnionToRecord<T> = IntersectionToRecord<ValueUnionToRecordIntersection<T> & { DEFAULT: undefined }>
+
+/**
+ * matchValue 函数 支持 number string symbol 基本类型参数
+ * @param value 入参
+ * @param choices 匹配对象
+ * @returns choices 中所有函数的返回值的Union
+ * example:
+const tests = Symbol('test');
+function test (x: 123 | typeof tests | undefined) {
+    const result = matchValue(x)({
+        [tests]: (v) => 'symbol',
+        123: (v) => '123',
+        DEFAULT: (v) => { throw new Error('unexpected value'); }
+    });
+}
+ */
+export function matchValue<T extends string | number | symbol | undefined> (value: T):
+<Cs extends Choices<ValueUnionToRecord<T>>>(choices: Cs) => ReturnType<Cs[keyof Cs]> {
+    return (choices) => {
+        if (value === 'DEFAULT') console.error('@cj97/match matchValue: value \'DEFAULT\' will cause unexpected match');
+        if (value in choices) {
+            return (choices as any)[value](value);
+        } else {
+            choices.DEFAULT(value as any);
+        }
+    };
+}
