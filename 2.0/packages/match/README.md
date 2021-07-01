@@ -43,6 +43,53 @@ class Foo extends TypeClass<'Foo'> {
 }
 ```
 
+对于值匹配，需要使用另外的函数
+
+```typescript
+const tests = Symbol('test');
+function test (x: 123 | typeof tests | undefined) {
+    const result = matchValue(x)({
+        [tests]: (v) => 'symbol',
+        123: (v) => '123',
+        DEFAULT: (v) => { throw new Error('unexpected value'); }
+    });
+}
+```
+
+需要明确参数可能的取值，以下形式会引起错误
+
+```typescript
+const tests = Symbol('test');
+function test (x: number | string | typeof tests | undefined) {
+    const result = matchValue(x)({
+        [tests]: (v) => 'symbol',
+        123: (v) => '123',
+        DEFAULT: (v) => 'other'
+    });
+}
+```
+
+但是目前支持
+
+```typescript
+const tests = Symbol('test');
+function test (x: number | typeof tests | undefined) {
+    const result = matchValue(x)({
+        [tests]: (v) => 'symbol',
+        123: (v) => '123',
+        DEFAULT: (v) => 'other'
+    });
+}
+// or
+function test (x: string | typeof tests | undefined) {
+    const result = matchValue(x)({
+        [tests]: (v) => 'symbol',
+        123: (v) => '123',
+        DEFAULT: (v) => 'other'
+    });
+}
+```
+
 ## 注意
 
 **必须在 `tsconfig` 设置 `"strictNullChecks": true` 否则无法进行正确的类型推断**。

@@ -106,7 +106,7 @@ export abstract class TypeClass<T extends string> {
 type ValueUnionToRecordIntersection<U> = (
     U extends string | number | symbol ? (arg: { [x in U]: U }) => 0 : never
 ) extends (arg: infer I) => 0 ? I : never
-type ValueUnionToRecord<T> = IntersectionToRecord<ValueUnionToRecordIntersection<T> & { DEFAULT: undefined }>
+type ValueUnionToRecord<T> = IntersectionToRecord<ValueUnionToRecordIntersection<T> & (undefined extends T ? { DEFAULT: T } : {})>
 
 /**
  * matchValue 函数 支持 number string symbol 基本类型参数
@@ -130,7 +130,8 @@ export function matchValue<T extends string | number | symbol | undefined> (valu
         if (value in choices) {
             return (choices as any)[value](value);
         } else {
-            choices.DEFAULT(value as any);
+            const DEFAULT = (choices as any).DEFAULT;
+            return DEFAULT && DEFAULT(value);
         }
     };
 }
