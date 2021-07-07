@@ -2,7 +2,7 @@ export function replacePathVariables (
     url: string,
     variables: Record<string, number | string>
 ): string {
-    const regex = /\/:(\w+)/;
+    const regex = /\/:([A-Za-z_0-9]+)/;
 
     let newUrl = url;
     let tmpArr = regex.exec(newUrl);
@@ -24,17 +24,18 @@ export function appendParams (
     params: Record<string, number | string>
 ): string {
     const query = Object.entries(params).map(([k, v]) => {
+        if (v === '' || v === undefined || v === null) return undefined;
         return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
-    }).join('&');
+    }).filter(v => !!v).join('&');
     return query ? url.includes('?') ? url + query : url + '?' + query : url;
 }
 
 export function buildUrl (
     url: string,
-    params: Record<string, number | string>,
+    query: Record<string, number | string>,
     variables: Record<string, number | string>
 ): string {
-    return appendParams(replacePathVariables(url, variables), params);
+    return appendParams(replacePathVariables(url, variables), query);
 }
 
 export function isObject (val: unknown): val is Object {
