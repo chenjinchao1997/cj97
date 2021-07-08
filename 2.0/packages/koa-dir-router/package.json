@@ -1,16 +1,17 @@
 {
   "name": "@cj97/koa-dir-router",
-  "version": "1.1.6",
+  "version": "1.1.6-0",
   "description": "fork koa-dir-router to support mjs",
   "main": "index.js",
   "module": "index.mjs",
   "dependencies": {
     "clear-module": "^4.1.0"
   },
+  "files": [
+    "index.js",
+    "index.mjs"
+  ],
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "koa",
     "koa2",
@@ -20,12 +21,16 @@
     "static-router",
     "koa-dir-router",
     "koa-static-router",
-    "koa-router"
+    "koa-router",
+    "mjs"
   ],
-  "author": "",
+  "author": "ccj1997",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xueliangGit/koa-dir-router/issues"
+    "url": "https://github.com/jcc1997/cj97/issues"
   },
-  "homepage": "https://github.com/xueliangGit/koa-dir-router#readme"
+  "homepage": "https://github.com/jcc1997/cj97/tree/main/2.0/packages/koa-dir-router",
+  "publishConfig": {
+    "access": "public"
+  }
 }

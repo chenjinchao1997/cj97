@@ -1,4 +1,4 @@
 
 export default function (ctx) {
-    ctx.body = 'Hello World'
+    ctx.body = 'Hello World';
 }
