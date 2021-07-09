@@ -123,3 +123,17 @@ export function defineApis<T extends Record<string, DefFn>> (apis: T): (trq: TRe
         return result as { [K in keyof T]: (options: Parameters<ReturnType<T[K]>>[0]) => ReturnType<ReturnType<T[K]>>};
     };
 }
+
+type DefaultApiDefinition<
+    Options extends unknown = any,
+    Result extends Promise<TRequestResponse> = Promise<TRequestResponse>
+> = ApiDefinition<Options, Result>;
+defineApis.raw = function <T extends Record<string, DefaultApiDefinition>> (apis: T): (trq: TRequest) => { [K in keyof T]: (options: Parameters<T[K]>[1]) => ReturnType<T[K]>} {
+    return trq => {
+        const result: { [x in string]: (options: unknown) => Promise<TRequestResponse>} = {};
+        Object.keys(apis).forEach(k => {
+            result[k] = defineApi(apis[k])(trq);
+        });
+        return result as { [K in keyof T]: (options: Parameters<T[K]>[1]) => ReturnType<T[K]>};
+    };
+};
