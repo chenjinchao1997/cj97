@@ -92,24 +92,6 @@ api.to({
 ```typescript
 // definitions.ts
 export const apiDefs = defineApis({
-    getData: defineApi(async (trq, options: { id: string }) => {
-        const { id } = options;
-        // TRequestOptions 第一个范型参数其实无用
-        // 但是要定义第二个范型就不能省略第一个
-        const resp = await trq<TRequestOptions, { id: string }[]>({
-            url: '/api/:id',
-            method: 'GET',
-            params: {
-                id
-            }
-        });
-        return resp;
-    })
-});
-
-// or
-
-export const apiDefs = defineApis.raw({
     async getData (trq, options: { id: string }) => {
         const { id } = options;
         // TRequestOptions 第一个范型参数其实无用

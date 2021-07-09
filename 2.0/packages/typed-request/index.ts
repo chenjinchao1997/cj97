@@ -104,31 +104,16 @@ export function defineApi<
     return trq => options => definition(trq, options);
 }
 
-type DefFn<
-    Options extends unknown = any,
-    Result extends Promise<TRequestResponse> = Promise<TRequestResponse>
-> = (trq: TRequest) => (options: Options) => Result
-
 /**
  * 用于在未定 typed-request instance 的时候定义 api 集合
- * @param apis 一个<string, defineApi()> 的 map
+ * @param apis 一个<string, ApiDefinition> 的 map
  * @returns 返回一个待传入 typed-request 实现的函数
  */
-export function defineApis<T extends Record<string, DefFn>> (apis: T): (trq: TRequest) => { [K in keyof T]: (options: Parameters<ReturnType<T[K]>>[0]) => ReturnType<ReturnType<T[K]>>} {
-    return trq => {
-        const result: { [x in string]: (options: unknown) => Promise<TRequestResponse>} = {};
-        Object.keys(apis).forEach(k => {
-            result[k] = apis[k](trq);
-        });
-        return result as { [K in keyof T]: (options: Parameters<ReturnType<T[K]>>[0]) => ReturnType<ReturnType<T[K]>>};
-    };
-}
-
 type DefaultApiDefinition<
     Options extends unknown = any,
     Result extends Promise<TRequestResponse> = Promise<TRequestResponse>
 > = ApiDefinition<Options, Result>;
-defineApis.raw = function <T extends Record<string, DefaultApiDefinition>> (apis: T): (trq: TRequest) => { [K in keyof T]: (options: Parameters<T[K]>[1]) => ReturnType<T[K]>} {
+export function defineApis<T extends Record<string, DefaultApiDefinition>> (apis: T): (trq: TRequest) => { [K in keyof T]: (options: Parameters<T[K]>[1]) => ReturnType<T[K]>} {
     return trq => {
         const result: { [x in string]: (options: unknown) => Promise<TRequestResponse>} = {};
         Object.keys(apis).forEach(k => {
@@ -136,4 +121,4 @@ defineApis.raw = function <T extends Record<string, DefaultApiDefinition>> (apis
         });
         return result as { [K in keyof T]: (options: Parameters<T[K]>[1]) => ReturnType<T[K]>};
     };
-};
+}
